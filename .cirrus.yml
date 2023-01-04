@@ -1,0 +1,23 @@
+container:
+    image: ubuntu:22.10
+    cpu: 8
+    memory: 8
+
+build_erofs_utils_task:
+  name: Build erofs-utils
+  install_script: |
+    apt install git llvm lld g++-multilib
+    git clone https://github.com/akhilnarang/scripts --depth=1 --single-branch
+    cd scripts
+    echo "::group::Setup Build Env"
+    sudo -E bash setup/android_build_env.sh
+    echo "::endgroup::"
+    echo "::group::Install Android Sdk"
+    sudo -E bash setup/install_android_sdk.sh
+
+  start_build_script:
+    - chmod a+x build.sh
+    - ./build.sh
+
+  output_artifacts:
+  path: "./*.zip"
