@@ -1,5 +1,5 @@
 container:
-    image: android-sdk:31-ndk
+    image: cirrusci/android-sdk:30-ndk
     cpu: 8
     memory: 8
 
