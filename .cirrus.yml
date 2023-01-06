@@ -1,19 +1,20 @@
 container:
-    image: ubuntu:22.10
+    image: android-sdk:31-ndk
     cpu: 8
     memory: 8
 
 build_erofs_utils_task:
   name: Build erofs-utils
   install_script: |
-    apt install git llvm lld g++-multilib
-    git clone https://github.com/akhilnarang/scripts --depth=1 --single-branch
-    cd scripts
+    apt update -y && apt install git llvm lld g++-multilib ninja-build sudo wget -y
+    git clone https://github.com/akhilnarang/scripts --depth=1 --single-branch tmp
+    cd tmp 
     echo "::group::Setup Build Env"
     sudo -E bash setup/android_build_env.sh
     echo "::endgroup::"
     echo "::group::Install Android Sdk"
     sudo -E bash setup/install_android_sdk.sh
+    cd ..
 
   start_build_script:
     - chmod a+x build.sh
